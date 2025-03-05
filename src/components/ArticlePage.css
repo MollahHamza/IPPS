@@ -1,0 +1,67 @@
+/* Category filter bar */
+.category-filter {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  
+  .category-btn {
+    background-color: #f0f0f0;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+  }
+  
+  .category-btn:hover {
+    background-color: #ccc;
+  }
+  
+  .category-btn.selected {
+    background-color: #007bff;
+    color: white;
+  }
+  
+  .show-more-btn {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-top: 20px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  .show-more-btn:hover {
+    background-color: #0056b3;
+  }
+  
+  .article {
+    border-bottom: 1px solid #ccc;
+    padding: 20px;
+  }
+  
+  .article h3 {
+    font-size: 1.5em;
+  }
+  
+  .article-image {
+    width: 100%;
+    max-width: 400px;
+    height: auto;
+  }
+  
+  .read-more {
+    color: #007bff;
+    text-decoration: none;
+  }
+  
+  .read-more:hover {
+    text-decoration: underline;
+  }
+  

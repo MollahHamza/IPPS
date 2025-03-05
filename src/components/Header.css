@@ -1,0 +1,60 @@
+/* src/components/Header.css */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 40px;
+    background: linear-gradient(to right, #333, #555); /* Gradient background */
+    color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Subtle shadow */
+  }
+  
+  .header .logo img {
+    width: 150px;  /* Logo size */
+    height: auto;
+    border-radius: 8px;  /* Rounded corners for a smoother look */
+    transition: transform 0.3s ease;
+  }
+  
+  .header .logo img:hover {
+    transform: scale(1.1);  /* Zoom-in effect on hover */
+  }
+  
+  .site-title {
+    text-align: right;  /* Aligning the title on the right */
+    font-family: 'Arial', sans-serif;
+  }
+  
+  .site-title h1 {
+    margin: 0;
+    font-size: 2.5em;
+    font-weight: 600;
+  }
+  
+  .site-title p {
+    margin-top: 5px;
+    font-size: 1.1em;
+    color: #ddd;
+  }
+  
+  @media (max-width: 768px) {
+    .header {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 15px;
+    }
+  
+    .header .logo img {
+      width: 120px;  /* Smaller logo for mobile */
+    }
+  
+    .site-title h1 {
+      font-size: 2em;
+    }
+  
+    .site-title p {
+      font-size: 1em;
+    }
+  }
+  
