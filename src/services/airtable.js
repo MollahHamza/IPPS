@@ -36,3 +36,17 @@ export const addArticle = async (articleData) => {
     throw error;
   }
 };
+
+export const deleteArticle = async (articleId) => {
+  try {
+    const response = await axios.delete(`${baseUrl}/${articleId}`, {
+      headers: {
+        Authorization: `Bearer ${process.env.REACT_APP_AIRTABLE_API_KEY}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error deleting article", error);
+    throw error;
+  }
+};
