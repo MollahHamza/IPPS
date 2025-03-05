@@ -3,32 +3,35 @@
 /* General App Styling */
 .App {
   text-align: center;
-  font-family: 'Merriweather', serif; /* Classic newspaper font */
-  background-color: #f5f5f5;
+  font-family: 'Merriweather', serif;
+  background-color: #f8f9fa;
+  min-height: 100vh;
   padding: 20px;
 }
 
 /* Newspaper Header */
 h1 {
-  font-size: 36px;
-  font-weight: bold;
+  font-size: 42px;
+  font-weight: 700;
   text-transform: uppercase;
-  border-bottom: 4px double #333;
-  padding-bottom: 10px;
-  margin-bottom: 20px;
+  border-bottom: 3px solid #2c3e50;
+  padding-bottom: 15px;
+  margin-bottom: 30px;
+  color: #2c3e50;
 }
 
 /* Article List */
 .article-list {
-  width: 80%;
+  width: 90%;
+  max-width: 1200px;
   margin: auto;
 }
 
 /* Newspaper Grid Layout */
 .articles {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+  gap: 30px;
   justify-content: center;
   padding: 20px;
 }
@@ -36,56 +39,93 @@ h1 {
 /* Individual Article Card */
 .article {
   background-color: white;
-  padding: 20px;
-  border-radius: 5px;
-  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
-  border-left: 5px solid #333;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  border: 1px solid #e9ecef;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.article:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 25px rgba(0, 0, 0, 0.12);
 }
 
 .article h3 {
-  font-size: 22px;
-  color: #222;
-  margin-bottom: 10px;
+  font-size: 24px;
+  color: #2c3e50;
+  margin-bottom: 15px;
+  line-height: 1.4;
 }
 
 .article p {
   font-size: 16px;
-  color: #444;
-  text-align: justify;
-  line-height: 1.6;
+  color: #495057;
+  text-align: left;
+  line-height: 1.8;
+  margin-bottom: 20px;
 }
 
 /* Article Image */
 .article-image {
   width: 100%;
-  height: auto;
-  max-height: 250px;
+  height: 250px;
   object-fit: cover;
-  margin-bottom: 15px;
-  border-radius: 5px;
+  margin-bottom: 20px;
+  border-radius: 8px;
+  transition: transform 0.3s ease;
+}
+
+.article:hover .article-image {
+  transform: scale(1.02);
 }
 
 /* Pagination Controls */
 .pagination {
   display: flex;
   justify-content: center;
-  margin-top: 20px;
+  margin-top: 40px;
+  gap: 15px;
 }
 
 .pagination button {
-  padding: 10px 15px;
-  margin: 0 10px;
+  padding: 12px 24px;
   cursor: pointer;
   border: none;
-  border-radius: 5px;
-  background-color: #222;
+  border-radius: 8px;
+  background-color: #3498db;
   color: white;
   font-size: 16px;
+  font-weight: 500;
+  transition: background-color 0.3s ease;
+}
+
+.pagination button:hover:not(:disabled) {
+  background-color: #2980b9;
 }
 
 .pagination button:disabled {
-  background-color: #ccc;
+  background-color: #e9ecef;
   cursor: not-allowed;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .article-list {
+    width: 95%;
+  }
+  
+  .articles {
+    grid-template-columns: 1fr;
+  }
+  
+  .article {
+    padding: 20px;
+  }
+  
+  h1 {
+    font-size: 32px;
+  }
 }
 
 /* Loading & Error Styles */
