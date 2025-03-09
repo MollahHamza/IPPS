@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { fetchArticles } from '../services/airtable';
+import { Link } from 'react-router-dom';
 import '../components/ArticleList.css'; // Import the CSS file
 
 const ArticleList = () => {
   const [articles, setArticles] = useState([]);
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState('');
-  const [visibleArticles, setVisibleArticles] = useState(5); // Initially show 5 articles
+  const [visibleArticles, setVisibleArticles] = useState(8); // Changed from 5 to 8
   const [allArticlesFetched, setAllArticlesFetched] = useState(false);
 
   // Fetch articles and categories when the component mounts
@@ -80,10 +81,10 @@ const ArticleList = () => {
                 className="article-image"
               />
             )}
-            <p>{article.fields.Content}</p>
-            <a href={`/article/${article.id}`} className="read-more">
+            <p>{article.fields.Content.substring(0, 200)}{article.fields.Content.length > 200 ? '...' : ''}</p>
+            <Link to={`/article/${article.id}`} className="read-more">
               Read More
-            </a>
+            </Link>
           </div>
         ))}
 

@@ -1,22 +1,44 @@
 // src/components/Login.js
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Login.css';
 
 const Login = ({ setAuthenticated }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
   const navigate = useNavigate();
 
-  const handleLogin = (e) => {
-    e.preventDefault();
-    
-    // Simple authentication
-    if (username === 'admin' && password === 'admin123') {
-      setAuthenticated(true); // Set the authenticated state
+  useEffect(() => {
+    // Check if user is already logged in
+    const isAuthenticated = localStorage.getItem('isAuthenticated');
+    if (isAuthenticated === 'true') {
+      setAuthenticated(true);
       navigate('/admin');
-    } else {
-      alert('Invalid username or password');
+    }
+  }, [navigate, setAuthenticated]);
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setError('');
+
+    try {
+      // Simulated delay to show loading state
+      await new Promise(resolve => setTimeout(resolve, 1000));
+
+      if (username === 'admin' && password === 'admin123') {
+        localStorage.setItem('isAuthenticated', 'true');
+        setAuthenticated(true);
+        navigate('/admin');
+      } else {
+        setError('Invalid username or password');
+      }
+    } catch (err) {
+      setError('An error occurred during login');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -30,6 +52,7 @@ const Login = ({ setAuthenticated }) => {
             type="text"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
+            disabled={loading}
             required
           />
         </div>
@@ -39,10 +62,14 @@ const Login = ({ setAuthenticated }) => {
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            disabled={loading}
             required
           />
         </div>
-        <button type="submit">Login</button>
+        {error && <div className="error-message">{error}</div>}
+        <button type="submit" disabled={loading}>
+          {loading ? 'Logging in...' : 'Login'}
+        </button>
       </form>
     </div>
   );

@@ -1,65 +1,75 @@
 /* src/components/Header.css */
 .header {
-    display: flex;
-    justify-content: space-between;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 30px;
+  background: white;
+  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.08);
+  z-index: 1000;
+}
+
+.header .logo img {
+  width: 120px;
+  height: auto;
+  border-radius: 8px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.header .logo img:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.site-title {
+  text-align: right;
+  font-family: 'Merriweather', serif;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.site-title h1 {
+  margin: 0;
+  font-size: 2em;
+  font-weight: 700;
+  color: #2c3e50;
+  letter-spacing: -0.5px;
+}
+
+.site-title p {
+  margin: 5px 0 0;
+  font-size: 1em;
+  color: #7f8c8d;
+  font-weight: 300;
+  white-space: nowrap;
+}
+
+@media (max-width: 768px) {
+  .header {
+    flex-direction: column;
     align-items: center;
-    padding: 25px 50px;
-    background: white;
-    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.08);
-    z-index: 1000;
+    text-align: center;
+    padding: 12px;
   }
-  
+
   .header .logo img {
-    width: 180px;
-    height: auto;
-    border-radius: 12px;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    width: 100px;
+    margin-bottom: 10px;
   }
-  
-  .header .logo img:hover {
-    transform: scale(1.05);
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-  }
-  
+
   .site-title {
-    text-align: right;
-    font-family: 'Merriweather', serif;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
   }
-  
+
   .site-title h1 {
-    margin: 0;
-    font-size: 2.8em;
-    font-weight: 700;
-    color: #2c3e50;
-    letter-spacing: -0.5px;
+    font-size: 1.6em;
   }
-  
+
   .site-title p {
-    margin-top: 8px;
-    font-size: 1.2em;
-    color: #7f8c8d;
-    font-weight: 300;
+    font-size: 0.9em;
   }
-  
-  @media (max-width: 768px) {
-    .header {
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-      padding: 20px;
-    }
-  
-    .header .logo img {
-      width: 140px;
-      margin-bottom: 15px;
-    }
-  
-    .site-title h1 {
-      font-size: 2.2em;
-    }
-  
-    .site-title p {
-      font-size: 1.1em;
-    }
-  }
+}
   

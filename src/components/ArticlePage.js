@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { fetchArticles } from '../services/airtable';
+import './ArticlePage.css';
 
 const ArticlePage = () => {
   const { id } = useParams(); // Get the article ID from the URL
@@ -40,8 +41,12 @@ const ArticlePage = () => {
   return (
     <div className="article-page">
       <h1>{article.Title}</h1>
-      <img src={article.Image[0]?.url} alt={article.Title} />
-      <div>{article.Content}</div>
+      {article.Image && article.Image[0] && (
+        <img src={article.Image[0].url} alt={article.Title} />
+      )}
+      <div className="article-content">
+        <p>{article.Content}</p>
+      </div>
     </div>
   );
 };

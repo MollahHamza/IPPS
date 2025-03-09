@@ -13,9 +13,10 @@ const Header = () => {
         </Link>
       </div>
       <div className="site-title">
-        <h1>Article Website</h1>
-        <p>Your source of quality articles</p>
+        <h1>IPPS</h1>
+        <p>Empowering Bangladesh Through Awareness</p>
       </div>
+
     </header>
   );
 };
