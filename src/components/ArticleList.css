@@ -215,31 +215,14 @@
   @media (max-width: 768px) {
     .articles {
       grid-template-columns: 1fr;
-      padding: 10px;
-      width: 100%;
-    }
-  
-    .article {
-      width: 100%;
-      margin: 0;
       padding: 15px;
+      gap: 20px;
     }
-  
-    .headline-section {
-      padding: 15px 10px;
-      margin: 0 -10px 30px -10px;
-      border-radius: 0;
-    }
-  
-    .headline-article {
-      min-width: 280px;
-    }
-  
+    
     .category-filter {
       gap: 8px;
-      padding: 0 5px;
     }
-  
+    
     .category-btn {
       padding: 8px 16px;
       font-size: 13px;
