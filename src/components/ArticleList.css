@@ -54,17 +54,25 @@
 @media (max-width: 768px) {
     .headline-article {
         min-width: 260px;
-        height: 200px;
-        position: relative;
-        overflow: hidden;
+        height: auto;
+        display: flex;
+        flex-direction: column;
+        background: white;
     }
 
     .headline-image {
         width: 100%;
-        height: 100%;
+        height: 150px;
         object-fit: cover;
-        transform: none;
-        transition: none;
+    }
+
+    .headline-article h3 {
+        position: static;
+        background: none;
+        color: #2c3e50;
+        padding: 15px;
+        font-size: 16px;
+        margin: 0;
     }
 
     .headline-article:hover .headline-image {
@@ -78,11 +86,6 @@
     .headline-articles {
         padding: 5px;
         gap: 15px;
-    }
-
-    .headline-article h3 {
-        font-size: 16px;
-        padding: 12px;
     }
 }
 
@@ -113,24 +116,6 @@
     transition: transform 0.5s ease;
 }
 
-@media (max-width: 768px) {
-    .article {
-        width: 95%;
-        margin: 0 auto;
-        padding: 15px;
-    }
-
-    .headline-image {
-        object-fit: cover;
-        height: 100%;
-        width: 100%;
-    }
-
-    .articles {
-        padding: 10px;
-    }
-}
-
 .headline-article:hover .headline-image {
     transform: scale(1.05);
 }
@@ -159,41 +144,41 @@
     display: flex;
     flex-direction: column;
 }
-  
-  .article:hover {
+
+.article:hover {
     transform: translateY(-5px);
     box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
-  }
-  
-  .article h3 {
+}
+
+.article h3 {
     font-size: 18px;
     color: #2c3e50;
     margin-bottom: 12px;
     line-height: 1.4;
     font-weight: 600;
-  }
-  
-  .article p {
+}
+
+.article p {
     font-size: 14px;
     line-height: 1.6;
     color: #505c6e;
     margin-bottom: 15px;
-  }
-  
-  .article-image {
+}
+
+.article-image {
     width: 100%;
     height: 200px;
     object-fit: cover;
     border-radius: 10px;
     margin-bottom: 15px;
     transition: transform 0.5s ease;
-  }
-  
-  .article:hover .article-image {
+}
+
+.article:hover .article-image {
     transform: scale(1.03);
-  }
-  
-  .read-more {
+}
+
+.read-more {
     display: inline-block;
     padding: 6px 16px;
     background-color: #3498db;
@@ -203,25 +188,25 @@
     font-size: 12px;
     font-weight: 500;
     transition: background-color 0.3s ease, transform 0.2s ease;
-  }
-  
-  .read-more:hover {
+}
+
+.read-more:hover {
     background-color: #2980b9;
     transform: translateX(5px);
     text-decoration: none;
-  }
-  
-  /* Keep Category Filter Styling Unchanged */
-  .category-filter {
+}
+
+/* Keep Category Filter Styling Unchanged */
+.category-filter {
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
     justify-content: center;
     margin-bottom: 20px;
     padding: 0 10px;
-  }
-  
-  .category-btn {
+}
+
+.category-btn {
     padding: 10px 20px;
     background-color: #f8f9fa;
     border: 1px solid #e9ecef;
@@ -231,21 +216,21 @@
     font-weight: 500;
     color: #495057;
     transition: all 0.3s ease;
-  }
-  
-  .category-btn:hover {
+}
+
+.category-btn:hover {
     background-color: #e9ecef;
     transform: translateY(-2px);
-  }
-  
-  .category-btn.selected {
+}
+
+.category-btn.selected {
     background-color: #3498db;
     color: white;
     border-color: #3498db;
-  }
-  
-  /* Show More Button */
-  .show-more-btn {
+}
+
+/* Show More Button */
+.show-more-btn {
     padding: 12px 30px;
     background-color: #3498db;
     color: white;
@@ -257,28 +242,39 @@
     margin: 40px auto;
     display: block;
     transition: all 0.3s ease;
-  }
-  
-  .show-more-btn:hover {
+}
+
+.show-more-btn:hover {
     background-color: #2980b9;
     transform: translateY(-2px);
     box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
-  }
-  
-  @media (max-width: 768px) {
+}
+
+@media (max-width: 768px) {
     .articles {
-      grid-template-columns: 1fr;
-      padding: 15px;
-      gap: 20px;
+        grid-template-columns: 1fr;
+        padding: 15px;
+        gap: 20px;
     }
     
     .category-filter {
-      gap: 8px;
+        gap: 8px;
     }
     
     .category-btn {
-      padding: 8px 16px;
-      font-size: 13px;
+        padding: 8px 16px;
+        font-size: 13px;
     }
-  }
+
+    .article {
+        width: 95%;
+        margin: 0 auto;
+        padding: 15px;
+    }
+
+    .article-image {
+        height: 180px;
+        object-fit: cover;
+    }
+}
   
