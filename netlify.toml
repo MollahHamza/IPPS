@@ -3,11 +3,14 @@
   functions = "netlify/functions"
   publish = "build"
 
+[build.environment]
+  CI = "false"
+  NODE_VERSION = "16"
+
 [[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
-  #  to = "/index.html"
   #  status = 200
 
   ## (optional) Settings for Netlify Dev
