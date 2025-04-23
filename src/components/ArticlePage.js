@@ -35,11 +35,11 @@ const ArticlePage = () => {
   }, [id]);
 
   const updateMetaTags = (articleData) => {
-    // Update Open Graph meta tags
+    // Update standard Open Graph meta tags
     const metaTags = {
       'og:title': articleData.Title,
       'og:description': articleData.Content.substring(0, 200),
-      'og:image': articleData.Image?.[0]?.url ? new URL(articleData.Image[0].url, window.location.origin).href : '',
+      'og:image': articleData.Image?.[0]?.url || '',
       'og:url': window.location.href,
       'og:type': 'article'
     };
