@@ -5,6 +5,7 @@ import '../components/ArticleList.css'; // Import the CSS file
 
 const ArticleList = () => {
   const [articles, setArticles] = useState([]);
+  const [headlineArticles, setHeadlineArticles] = useState([]);
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState('');
   const [visibleArticles, setVisibleArticles] = useState(8); // Changed from 5 to 8
@@ -14,6 +15,14 @@ const ArticleList = () => {
   useEffect(() => {
     const getArticles = async () => {
       const fetchedArticles = await fetchArticles();
+      
+      // Filter headline articles based on the headline boolean field
+      const headlines = fetchedArticles.filter(
+        (article) => article.fields.headline === true
+      );
+      setHeadlineArticles(headlines);
+      
+      // Set all articles
       setArticles(fetchedArticles);
 
       // Extract unique categories from the articles
@@ -48,6 +57,27 @@ const ArticleList = () => {
 
   return (
     <div className="article-list">
+      {/* Headline News Section */}
+      {headlineArticles.length > 0 && (
+        <div className="headline-section">
+          <h2>Headline News</h2>
+          <div className="headline-articles">
+            {headlineArticles.map((article) => (
+              <Link to={`/article/${article.id}`} key={article.id} className="headline-article">
+                {article.fields.Image && (
+                  <img
+                    src={article.fields.Image[0].url}
+                    alt={article.fields.Title}
+                    className="headline-image"
+                  />
+                )}
+                <h3>{article.fields.Title}</h3>
+              </Link>
+            ))}
+          </div>
+        </div>
+      )}
+
       <h2>Latest Articles</h2>
 
       {/* Category Filter - Horizontal Bar */}

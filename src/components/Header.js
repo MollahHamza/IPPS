@@ -16,7 +16,12 @@ const Header = () => {
         <h1>IPPS</h1>
         <p>Empowering Bangladesh Through Awareness</p>
       </div>
-
+      <nav className="main-nav">
+        <ul>
+          <li><Link to="/">Home</Link></li>
+          <li><Link to="/about">About Us</Link></li>
+        </ul>
+      </nav>
     </header>
   );
 };

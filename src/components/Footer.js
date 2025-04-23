@@ -25,9 +25,6 @@ const Footer = () => {
               <FaWhatsapp size={30} />
             </a>
           </div>
-          <div className="admin-access">
-            <Link to="/admin" className="admin-link">Admin Access</Link>
-          </div>
         </div>
       </div>
     </footer>

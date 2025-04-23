@@ -7,6 +7,7 @@ import ArticleList from './components/ArticleList';
 import ArticlePage from './components/ArticlePage';
 import AdminPanel from './components/AdminPanel';
 import Login from './components/Login';
+import AboutUs from './components/AboutUs';
 import './App.css';
 
 function App() {
@@ -21,6 +22,7 @@ function App() {
           <Routes>
             <Route path="/" element={<ArticleList />} />
             <Route path="/article/:id" element={<ArticlePage />} />
+            <Route path="/about" element={<AboutUs />} />
             <Route path="/login" element={<Login setAuthenticated={setIsAuthenticated} />} />
             <Route
               path="/admin"
