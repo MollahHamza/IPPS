@@ -39,7 +39,7 @@ const ArticlePage = () => {
     const metaTags = {
       'og:title': articleData.Title,
       'og:description': articleData.Content.substring(0, 200),
-      'og:image': articleData.Image?.[0]?.url || '',
+      'og:image': articleData.Image?.[0]?.url ? new URL(articleData.Image[0].url, window.location.origin).href : '',
       'og:url': window.location.href,
       'og:type': 'article'
     };
