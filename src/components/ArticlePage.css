@@ -43,22 +43,29 @@
 
 @media (max-width: 768px) {
   .article-page {
-    margin: 1rem;
-    padding: 0 1rem;
+    margin: 0.5rem;
+    padding: 0;
+    width: 100%;
+    max-width: 100%;
   }
 
   .article-page h1 {
     font-size: 1.4rem;
-    margin: 1.2rem 0;
+    margin: 1rem 0;
+    padding: 0 1rem;
   }
 
   .article-content {
-    padding: 1.2rem 1rem;
-    font-size: 0.9rem;
+    padding: 1rem;
+    font-size: 0.95rem;
+    width: 100%;
+    max-width: 100%;
   }
 
   .article-page img {
-    margin: 1.2rem auto;
+    margin: 1rem auto;
+    width: 100%;
+    border-radius: 8px;
   }
 }
 
