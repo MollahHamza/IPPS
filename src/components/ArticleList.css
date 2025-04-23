@@ -55,6 +55,8 @@
     .headline-article {
         min-width: 260px;
         height: 200px;
+        position: relative;
+        overflow: hidden;
     }
 
     .headline-image {
@@ -62,6 +64,7 @@
         height: 100%;
         object-fit: cover;
         transform: none;
+        transition: none;
     }
 
     .headline-article:hover .headline-image {
@@ -70,6 +73,16 @@
 
     .headline-article:hover {
         transform: translateY(-5px);
+    }
+
+    .headline-articles {
+        padding: 5px;
+        gap: 15px;
+    }
+
+    .headline-article h3 {
+        font-size: 16px;
+        padding: 12px;
     }
 }
 
