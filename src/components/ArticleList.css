@@ -51,6 +51,21 @@
     flex: 0 0 auto;
 }
 
+@media (max-width: 768px) {
+    .headline-article {
+        min-width: 260px;
+        height: 200px;
+    }
+
+    .headline-image {
+        transform: none;
+    }
+
+    .headline-article:hover .headline-image {
+        transform: none;
+    }
+}
+
 .headline-article:hover {
     transform: translateY(-5px);
     box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25);
@@ -74,7 +89,7 @@
 .headline-image {
     width: 100%;
     height: 100%;
-    object-fit: contain;
+    object-fit: cover;
     transition: transform 0.5s ease;
 }
 
@@ -87,7 +102,8 @@
 
     .headline-image {
         object-fit: cover;
-        max-height: 200px;
+        height: 100%;
+        width: 100%;
     }
 
     .articles {
