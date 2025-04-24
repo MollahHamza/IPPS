@@ -68,6 +68,8 @@
         transform: none;
         transition: none;
         background-color: #f0f0f0;
+        display: block;
+        border-radius: 8px;
     }
 
     .headline-article:hover .headline-image {
@@ -128,14 +130,6 @@
         width: 95%;
         margin: 0 auto;
         padding: 15px;
-    }
-
-    .headline-image {
-        object-fit: cover;
-        height: 100%;
-        width: 100%;
-        background-color: #f0f0f0;
-        border-radius: 8px;
     }
 
     .articles {
