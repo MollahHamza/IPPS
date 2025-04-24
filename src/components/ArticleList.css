@@ -52,17 +52,31 @@
 }
 
 @media (max-width: 768px) {
-    .headline-article {
-        min-width: 250px;
-        height: 200px;
-        margin: 0 5px;
+    .headline-section {
+        position: relative;
+        padding: 15px 0;
+        margin-bottom: 30px;
+        overflow-x: hidden;
     }
-
+    
     .headline-articles {
-        padding: 10px 5px;
+        display: flex;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
         gap: 12px;
+        padding: 10px 15px;
+        margin: 0 -15px;
+        -webkit-overflow-scrolling: touch;
     }
-
+    
+    .headline-article {
+        min-width: 85%;
+        height: 180px;
+        margin: 0;
+        scroll-snap-align: center;
+        border-radius: 12px;
+    }
+    
     .headline-article h3 {
         font-size: 15px;
         padding: 12px;
@@ -78,6 +92,20 @@
     
     .headline-article:hover .headline-image {
         transform: none;
+    }
+    
+    /* Add scroll indicators */
+    .headline-section::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 40px;
+        height: 4px;
+        background-color: rgba(52, 152, 219, 0.5);
+        border-radius: 2px;
+        margin-bottom: 5px;
     }
 }
 
