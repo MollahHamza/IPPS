@@ -8,6 +8,7 @@ import ArticlePage from './components/ArticlePage';
 import AdminPanel from './components/AdminPanel';
 import Login from './components/Login';
 import AboutUs from './components/AboutUs';
+import IPBangladesh from './components/IPBangladesh';
 import './App.css';
 
 function App() {
@@ -34,6 +35,7 @@ function App() {
                 )
               }
             />
+            <Route path="/ip-bangladesh" element={<IPBangladesh />} />
           </Routes>
         </div>
 

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { fetchArticles } from '../services/airtable';
 import { Link } from 'react-router-dom';
 import '../components/ArticleList.css'; // Import the CSS file
+import initHeadlineScroll from './HeadlineScroll.js'; // Import the headline scroll functionality
 
 const ArticleList = () => {
   const [articles, setArticles] = useState([]);
@@ -33,6 +34,16 @@ const ArticleList = () => {
     };
     getArticles();
   }, []);
+
+  // Initialize headline scrolling after headlines are loaded
+  useEffect(() => {
+    if (headlineArticles.length > 1) {
+      // Only initialize scrolling if there are multiple headlines
+      setTimeout(() => {
+        initHeadlineScroll();
+      }, 1000); // Small delay to ensure DOM is fully rendered
+    }
+  }, [headlineArticles]);
 
   // Filter articles based on the selected category
   const filteredArticles = selectedCategory

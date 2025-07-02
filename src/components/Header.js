@@ -19,6 +19,7 @@ const Header = () => {
       <nav className="main-nav">
         <ul>
           <li><Link to="/">Home</Link></li>
+          <li><Link to="/ip-bangladesh">IP in Bangladesh</Link></li>
           <li><Link to="/about">About Us</Link></li>
         </ul>
       </nav>

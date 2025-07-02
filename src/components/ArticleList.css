@@ -132,7 +132,8 @@
 .headline-image {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain;
+    background-color: #f8f9fa;
     transition: transform 0.5s ease;
 }
 
@@ -200,7 +201,8 @@
   .article-image {
     width: 100%;
     height: 200px;
-    object-fit: cover;
+    object-fit: contain;
+    background-color: #f8f9fa;
     border-radius: 10px;
     margin-bottom: 15px;
     transition: transform 0.5s ease;
