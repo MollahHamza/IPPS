@@ -1,8 +1,10 @@
 // src/components/AboutUs.js
 import React from 'react';
+import { usePageTitle } from '../utils';
 import './AboutUs.css';
 
 const AboutUs = () => {
+  usePageTitle('About Us');
   return (
     <div className="about-us">
       <div className="about-us-container">

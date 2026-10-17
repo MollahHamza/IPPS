@@ -24,3 +24,11 @@ yarn-error.log*
 
 # Local Netlify folder
 .netlify
+
+# secrets (copy .env.example to .env)
+.env
+.env.*
+!.env.example
+
+# local API data (npm run server)
+/.data

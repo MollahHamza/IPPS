@@ -1,47 +1,78 @@
-// src/App.js
-import React, { useState } from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import React, { lazy, Suspense, useState } from 'react';
+import { createBrowserRouter, Outlet, RouterProvider, ScrollRestoration } from 'react-router-dom';
+import { AuthProvider, RequireAuth } from './auth';
 import Header from './components/Header';
 import Footer from './components/Footer';
-import ArticleList from './components/ArticleList';
+import HomePage from './components/HomePage';
 import ArticlePage from './components/ArticlePage';
-import AdminPanel from './components/AdminPanel';
-import Login from './components/Login';
+import ListingPage from './components/ListingPage';
 import AboutUs from './components/AboutUs';
-import IPBangladesh from './components/IPBangladesh';
+import Login from './components/Login';
+import { Loading, NotFound } from './components/States';
 import './App.css';
 
-function App() {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+// Loaded on demand: the charts page pulls in Chart.js, and readers never need the admin code.
+const IPBangladesh = lazy(() => import('./components/IPBangladesh'));
+const AdminLayout = lazy(() => import('./components/admin/AdminLayout'));
+const Dashboard = lazy(() => import('./components/admin/Dashboard'));
+const PostEditor = lazy(() => import('./components/admin/PostEditor'));
+const Guide = lazy(() => import('./components/admin/Guide'));
 
+const routes = [
+  {
+    element: <Shell />,
+    children: [
+      { path: '/', element: <HomePage /> },
+      { path: '/article/:id', element: <ArticlePage /> },
+      { path: '/category/:name', element: <ListingPage mode="category" /> },
+      { path: '/search', element: <ListingPage mode="search" /> },
+      { path: '/ip-bangladesh', element: <IPBangladesh /> },
+      { path: '/about', element: <AboutUs /> },
+      { path: '/login', element: <Login /> },
+      {
+        path: '/admin',
+        element: (
+          <RequireAuth>
+            <AdminLayout />
+          </RequireAuth>
+        ),
+        children: [
+          { index: true, element: <Dashboard /> },
+          { path: 'new', element: <PostEditor /> },
+          { path: 'edit/:id', element: <PostEditor /> },
+          { path: 'guide', element: <Guide /> },
+        ],
+      },
+      { path: '*', element: <NotFound /> },
+    ],
+  },
+];
+
+function Shell() {
   return (
-    <Router>
-      <div className="App">
-        <Header />
-        
-        <div className="main-content">
-          <Routes>
-            <Route path="/" element={<ArticleList />} />
-            <Route path="/article/:id" element={<ArticlePage />} />
-            <Route path="/about" element={<AboutUs />} />
-            <Route path="/login" element={<Login setAuthenticated={setIsAuthenticated} />} />
-            <Route
-              path="/admin"
-              element={
-                isAuthenticated ? (
-                  <AdminPanel />
-                ) : (
-                  <Navigate to="/login" replace />
-                )
-              }
-            />
-            <Route path="/ip-bangladesh" element={<IPBangladesh />} />
-          </Routes>
-        </div>
+    <div className="App">
+      <a href="#main" className="skip-link">
+        Skip to content
+      </a>
+      <Header />
+      <main id="main" className="main-content">
+        <Suspense fallback={<Loading />}>
+          <Outlet />
+        </Suspense>
+      </main>
+      <Footer />
+      <ScrollRestoration />
+    </div>
+  );
+}
 
-        <Footer />
-      </div>
-    </Router>
+function App() {
+  // A data router, so the article editor can warn before leaving with unsaved changes.
+  const [router] = useState(() => createBrowserRouter(routes));
+  return (
+    <AuthProvider>
+      <RouterProvider router={router} />
+    </AuthProvider>
   );
 }
 

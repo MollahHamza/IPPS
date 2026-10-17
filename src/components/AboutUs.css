@@ -67,4 +67,19 @@
   .about-us-content li {
     font-size: 1em;
   }
+
+  /* Justified text leaves big gaps between words on narrow screens */
+  .about-us-content p {
+    text-align: left;
+  }
+}
+
+@media (max-width: 480px) {
+  .about-us {
+    padding: 16px;
+  }
+
+  .about-us-container {
+    padding: 18px 16px;
+  }
 }

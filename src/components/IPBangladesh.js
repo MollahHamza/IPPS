@@ -1,10 +1,12 @@
 // src/components/IPBangladesh.js
 import React from 'react';
-import { Chart as ChartJS } from 'chart.js/auto';
+import 'chart.js/auto'; // registers every chart type used below
 import { Bar, Line, Doughnut } from 'react-chartjs-2';
+import { usePageTitle } from '../utils';
 import './IPBangladesh.css';
 
 const IPBangladesh = () => {
+  usePageTitle('IP in Bangladesh');
   // Sample data for charts - Replace with actual WIPO data
   const patentData = {
     labels: ['2018', '2019', '2020', '2021', '2022'],
@@ -171,7 +173,7 @@ const IPBangladesh = () => {
 
       <section className="ip-statistics">
         <h2>IP Statistics and Global Comparison</h2>
-        <p className="statistics-intro">The following charts provide a comprehensive comparison of Bangladesh's IP position relative to neighboring countries and global leaders, revealing both progress and significant challenges. Data is sourced from WIPO statistics database.</p>
+        <p className="statistics-intro">The following charts provide a comprehensive comparison of Bangladesh's IP position relative to neighboring countries and global leaders, revealing both progress and significant challenges. Figures are indicative estimates for illustration; for official numbers see the <a href="https://www.wipo.int/ipstats/en/" target="_blank" rel="noopener noreferrer">WIPO IP Statistics Data Center</a>.</p>
         
         <div className="charts-container">
           <div className="chart-box">

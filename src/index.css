@@ -1,13 +1,61 @@
+/* Design tokens: the original IPPS palette (navy + blue) plus the logo green. */
+:root {
+  --navy: #2c3e50;
+  --navy-light: #34495e;
+  --blue: #3498db;
+  --blue-dark: #2980b9;
+  --green: #7a9642;
+  --ink: #1f2d3a;
+  --text: #34495e;
+  --muted: #6c7a89;
+  --bg: #f8f9fa;
+  --paper: #ffffff;
+  --rule: #e2e6ea;
+  --danger: #c0392b;
+  --success: #27ae60;
+
+  --font-serif: 'Merriweather', 'Noto Serif Bengali', Georgia, serif;
+  --font-ui: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', 'Noto Sans Bengali', Arial, sans-serif;
+
+  --radius: 10px;
+  --shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+  --shadow-hover: 0 8px 30px rgba(0, 0, 0, 0.12);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-ui);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+img {
+  max-width: 100%;
+}
+
+a {
+  color: var(--blue-dark);
+}
+
+:focus-visible {
+  outline: 3px solid rgba(52, 152, 219, 0.5);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
 }

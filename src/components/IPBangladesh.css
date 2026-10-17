@@ -28,7 +28,7 @@
 
 .info-cards {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
   gap: 30px;
   margin-top: 30px;
 }
@@ -86,7 +86,7 @@
 
 .charts-container {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(400px, 100%), 1fr));
   gap: 30px;
   margin-top: 30px;
 }
@@ -160,7 +160,7 @@
 
 .offices-container {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
   gap: 30px;
   margin-top: 30px;
 }
@@ -202,7 +202,7 @@
 
 .resources-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(250px, 100%), 1fr));
   gap: 20px;
   margin-top: 30px;
 }
@@ -264,5 +264,104 @@
   .offices-container,
   .resources-grid {
     grid-template-columns: 1fr;
+  }
+}
+/* Newspaper headings to match the rest of the site */
+.ip-bangladesh-container h1,
+.ip-bangladesh-container h2 {
+  font-family: var(--font-serif);
+  color: var(--navy);
+}
+
+.ip-bangladesh-container h2 {
+  font-size: 1.6em;
+  padding-bottom: 10px;
+  border-bottom: 3px double var(--navy);
+}
+
+.statistics-intro a {
+  color: var(--blue-dark);
+}
+
+.chart-box {
+  min-width: 0; /* lets charts shrink to the column instead of overflowing it */
+}
+
+/* Phones: tighter spacing so the page isn't one long scroll of padding */
+@media (max-width: 640px) {
+  .ip-bangladesh-container {
+    padding: 24px 16px;
+  }
+
+  .ip-header {
+    margin-bottom: 28px;
+  }
+
+  .ip-header h1 {
+    font-size: 1.75rem;
+  }
+
+  .ip-header p {
+    font-size: 1rem;
+  }
+
+  .ip-overview,
+  .ip-statistics,
+  .global-gap,
+  .ip-offices {
+    margin-bottom: 36px;
+  }
+
+  .ip-bangladesh-container h2 {
+    font-size: 1.35rem;
+  }
+
+  .info-cards,
+  .charts-container,
+  .offices-container,
+  .resources-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 16px;
+    margin-top: 18px;
+  }
+
+  .info-card,
+  .chart-box,
+  .gap-content,
+  .office-card {
+    padding: 18px;
+  }
+
+  .info-card h3 {
+    font-size: 1.2rem;
+    margin-bottom: 8px;
+  }
+
+  .info-card p {
+    margin-bottom: 12px;
+  }
+
+  .chart-box h3 {
+    font-size: 1.05rem;
+    margin-bottom: 12px;
+  }
+
+  .statistics-intro {
+    text-align: left;
+    font-size: 0.98rem;
+    padding: 0;
+  }
+
+  .chart-note {
+    padding: 0;
+  }
+
+  .resource-link {
+    padding: 14px;
+  }
+
+  .info-card:hover,
+  .resource-link:hover {
+    transform: none;
   }
 }

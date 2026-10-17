@@ -1,76 +1,71 @@
-// src/components/Login.js
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Navigate, useLocation, useNavigate } from 'react-router-dom';
+import { useAuth } from '../auth';
+import { usePageTitle } from '../utils';
 import './Login.css';
 
-const Login = ({ setAuthenticated }) => {
+const Login = () => {
+  usePageTitle('Admin login');
+  const { status, login } = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  const navigate = useNavigate();
+  const destination = location.state?.from?.startsWith('/admin') ? location.state.from : '/admin';
 
-  useEffect(() => {
-    // Check if user is already logged in
-    const isAuthenticated = localStorage.getItem('isAuthenticated');
-    if (isAuthenticated === 'true') {
-      setAuthenticated(true);
-      navigate('/admin');
-    }
-  }, [navigate, setAuthenticated]);
+  if (status === 'in') return <Navigate to={destination} replace />;
 
   const handleLogin = async (e) => {
     e.preventDefault();
     setLoading(true);
     setError('');
-
     try {
-      // Simulated delay to show loading state
-      await new Promise(resolve => setTimeout(resolve, 1000));
-
-      if (username === 'admin' && password === 'admin123') {
-        localStorage.setItem('isAuthenticated', 'true');
-        setAuthenticated(true);
-        navigate('/admin');
-      } else {
-        setError('Invalid username or password');
-      }
+      await login(username.trim(), password);
+      navigate(destination, { replace: true });
     } catch (err) {
-      setError('An error occurred during login');
-    } finally {
+      setError(err.message);
       setLoading(false);
     }
   };
 
   return (
-    <div className="login">
-      <h2>Admin Login</h2>
-      <form onSubmit={handleLogin}>
-        <div>
-          <label>Username</label>
+    <div className="container">
+      <div className="login">
+        <h1>Admin Login</h1>
+        <p className="login__hint">Sign in to write and manage articles.</p>
+        <form onSubmit={handleLogin}>
+          <label htmlFor="username">Username</label>
           <input
+            id="username"
             type="text"
+            autoComplete="username"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             disabled={loading}
             required
           />
-        </div>
-        <div>
-          <label>Password</label>
+          <label htmlFor="password">Password</label>
           <input
+            id="password"
             type="password"
+            autoComplete="current-password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             disabled={loading}
             required
           />
-        </div>
-        {error && <div className="error-message">{error}</div>}
-        <button type="submit" disabled={loading}>
-          {loading ? 'Logging in...' : 'Login'}
-        </button>
-      </form>
+          {error && (
+            <p className="form-error" role="alert">
+              {error}
+            </p>
+          )}
+          <button type="submit" className="btn" disabled={loading}>
+            {loading ? 'Logging in…' : 'Login'}
+          </button>
+        </form>
+      </div>
     </div>
   );
 };

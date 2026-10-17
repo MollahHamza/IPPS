@@ -1,70 +1,82 @@
-# Getting Started with Create React App
+# IPPS — Empowering Bangladesh Through Awareness
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+News site about intellectual property in Bangladesh, with an admin panel for managing articles.
 
-## Available Scripts
+- **Frontend:** React (Create React App), React Router, Chart.js
+- **Backend:** one Netlify Function (`netlify/functions/api.mjs` → `server/app.mjs`) with
+  **Netlify Blobs** for articles and images. Everything is on Netlify's free plan: no database
+  account, no server to keep awake.
 
-In the project directory, you can run:
+## Features
 
-### `npm start`
+**Readers**
+- Front page laid out like a newspaper: masthead, sticky section navigation, scrolling headlines
+  ticker, lead story, top stories, latest news grid with "More stories", sidebar
+- Section pages (`/category/<name>`) and search (`/search?q=`)
+- Article pages with byline, reading time, image caption, related stories, and share buttons
+  (Facebook, WhatsApp, X, copy link)
+- Share previews on social media show the article's own title, summary and image
+  (`netlify/edge-functions/article-meta.js`)
+- **IP in Bangladesh** page with charts, IP offices and WIPO resources, and an **About Us** page
+- Works on phones; Bangla text uses the Noto Bengali fonts
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+**Admin** (`/admin`, linked in the footer)
+- Login checked by the server; sessions expire after 7 days
+- Article list with counts, search, filter by status, one-click headline toggle, delete
+- Editor: headline, optional summary, category (suggests existing ones), author, image upload
+  (resized in the browser) with caption, formatting buttons, live preview, draft/publish,
+  warning before leaving with unsaved changes, and unsaved text kept in the browser so it can be
+  restored after a closed tab or expired login
+- **Guide** (`/admin/guide`): a step-by-step tutorial for writers, with formatting examples
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+Article formatting: empty line = new paragraph, `## Heading`, `**bold**`, `> quote`,
+`- list item`. Links starting with `https://` become clickable. HTML is shown as plain text,
+never run, so articles can't inject scripts.
 
-### `npm test`
+## Run locally
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Requires Node 20+.
 
-### `npm run build`
+```bash
+npm install
+cp .env.example .env     # then set ADMIN_PASSWORD and SESSION_SECRET
+npm run dev              # API on :8888 + site on http://localhost:3000
+```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Locally, data is stored in `.data/` (git-ignored). On first start the store is filled with the
+starter articles in `server/seed/`. Delete `.data/` to start over.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+| Command | What it does |
+|---|---|
+| `npm run dev` | API server and React dev server together |
+| `npm run server` | API only (port 8888) |
+| `npm start` | React only (expects the API on 8888) |
+| `npm test` | Frontend tests |
+| `npm run test:api` | Backend tests |
+| `npm run build` | Production build into `build/` |
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Deploy to Netlify (free)
 
-### `npm run eject`
+1. Push this repo to GitHub and import it in Netlify (or keep your existing site connected).
+   `netlify.toml` already sets the build command, Node 20, functions and redirects.
+2. In **Site configuration → Environment variables**, add:
+   - `ADMIN_USERNAME`: e.g. `admin`
+   - `ADMIN_PASSWORD`: a long, unique password
+   - `SESSION_SECRET`: a long random string (e.g. from `openssl rand -hex 32`)
+3. Deploy. Netlify Blobs is enabled automatically. The first visit fills the empty store with
+   the starter articles; after that, manage everything at `https://<your-site>/admin`.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## API
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+All under `/api`. Write routes need `Authorization: Bearer <token>` from the login route.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+| Method | Path | Notes |
+|---|---|---|
+| POST | `/auth/login` | `{ username, password }` → `{ token, expiresAt }` |
+| GET | `/auth/me` | Checks a token |
+| GET | `/posts` | `?category=&q=&featured=1&limit=&offset=`; `status=all` (admin) includes drafts |
+| GET | `/posts/:id` | Full article (drafts only for admin) |
+| POST / PUT / DELETE | `/posts` / `/posts/:id` | Create, update (partial), delete |
+| GET | `/categories` | Published categories with counts |
+| POST | `/images` | `{ data: "<base64 or data URL>" }` → `{ url }`; JPEG/PNG/WebP/GIF, max 4MB |
+| GET | `/images/:id` | Image file, cached long-term |
