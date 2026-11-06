@@ -128,59 +128,87 @@ function validatePost(body, existing) {
 
 async function loadIndex() {
   const store = await postsStore();
-  const index = await store.getJSON(INDEX_KEY);
+  let index = await store.getJSON(INDEX_KEY);
   // A missing index means a brand-new store; an empty array means every post was deleted.
-  if (index === null) return seedStore();
+  const isNewStore = index === null;
+  index = index || [];
   // Indexes saved before search covered article text: add it once.
   if (index.some((p) => p.searchText === undefined)) {
-    const filled = await Promise.all(
+    index = await Promise.all(
       index.map(async (entry) => {
         if (entry.searchText !== undefined) return entry;
         const post = await store.getJSON(postKey(entry.id));
         return post ? summarize(post) : { ...entry, searchText: '' };
       })
     );
-    await saveIndex(filled);
-    return filled;
+    await saveIndex(index);
   }
-  return index;
+  return importRepoArticles(index, isNewStore);
 }
 
+// ---------- articles added through the repo (server/seed/) ----------
+// Articles in server/seed/posts.json are copied into the store once each, on the first request
+// after a deploy. The ids already copied are kept under IMPORTED_KEY, so an article deleted in
+// the admin panel is not brought back by the next deploy.
+
+const IMPORTED_KEY = 'imported-articles';
+// The starter articles, copied in before the import list existed.
+const STARTER_IDS = ['rec4DeyzdD5xCHs5Y', 'recA7677SPMP3uZBA', 'reckLTlJiKi3lOhnI'];
+const IMAGE_EXTENSIONS = { '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg', '.png': 'image/png', '.webp': 'image/webp', '.gif': 'image/gif' };
+
+// The repo's articles can't change while this instance runs, so once they are all imported, skip the check.
+let repoArticlesImported = false;
+
 function seedDir() {
-  const candidates = [process.env.LAMBDA_TASK_ROOT, process.cwd()]
-    .filter(Boolean)
-    .map((root) => path.join(root, 'server', 'seed'));
+  const roots = [process.env.LAMBDA_TASK_ROOT, process.cwd()].filter(Boolean);
+  const candidates = [process.env.SEED_DIR, ...roots.map((root) => path.join(root, 'server', 'seed'))].filter(Boolean);
   return candidates.find((dir) => existsSync(path.join(dir, 'posts.json')));
 }
 
-// Fills a new, empty store with the starter articles in server/seed/.
-// Article ids are kept so old share links (/article/<id>) keep working.
-async function seedStore() {
+async function importRepoArticles(index, isNewStore) {
+  if (repoArticlesImported) return index;
   const dir = seedDir();
-  const index = [];
-  if (dir) {
-    const store = await postsStore();
-    const images = await imagesStore();
-    const seeds = JSON.parse(await readFile(path.join(dir, 'posts.json'), 'utf8'));
-    for (const seed of seeds) {
-      let imageUrl = '';
-      if (seed.image) {
-        const imageId = seed.id.toLowerCase();
-        await images.setBinary(imageId, await readFile(path.join(dir, 'images', seed.image)), { contentType: 'image/jpeg' });
-        imageUrl = `/api/images/${imageId}`;
-      }
-      const post = {
-        id: seed.id,
-        ...validatePost({ ...seed, imageUrl, publishedAt: seed.createdAt }, {}),
-        createdAt: seed.createdAt,
-        updatedAt: seed.createdAt,
-      };
-      await store.setJSON(postKey(post.id), post);
+  const seeds = dir ? JSON.parse(await readFile(path.join(dir, 'posts.json'), 'utf8')) : [];
+  const store = await postsStore();
+  const savedList = await store.getJSON(IMPORTED_KEY);
+  const imported = new Set(savedList || (isNewStore ? [] : STARTER_IDS));
+  const todo = seeds.filter((seed) => !imported.has(seed.id));
+
+  for (const seed of todo) {
+    // Already in the store (e.g. two instances importing at once): just record it.
+    if (!(await store.getJSON(postKey(seed.id)))) {
+      const post = await importArticle(dir, seed);
+      index = index.filter((p) => p.id !== post.id);
       index.push(summarize(post));
     }
+    imported.add(seed.id);
   }
-  await saveIndex(index);
+  if (todo.length || isNewStore) await saveIndex(index);
+  if (todo.length || !savedList) await store.setJSON(IMPORTED_KEY, [...imported]);
+  repoArticlesImported = true;
   return index;
+}
+
+// Article ids are kept so share links (/article/<id>) work from the start.
+async function importArticle(dir, seed) {
+  const store = await postsStore();
+  let imageUrl = seed.imageUrl || '';
+  if (seed.image) {
+    const imageId = seed.id.toLowerCase();
+    const contentType = IMAGE_EXTENSIONS[path.extname(seed.image).toLowerCase()] || 'image/jpeg';
+    const images = await imagesStore();
+    await images.setBinary(imageId, await readFile(path.join(dir, 'images', seed.image)), { contentType });
+    imageUrl = `/api/images/${imageId}`;
+  }
+  const createdAt = seed.createdAt ? new Date(seed.createdAt).toISOString() : new Date().toISOString();
+  const post = {
+    id: seed.id,
+    ...validatePost({ ...seed, imageUrl, publishedAt: seed.publishedAt || createdAt }, {}),
+    createdAt,
+    updatedAt: createdAt,
+  };
+  await store.setJSON(postKey(post.id), post);
+  return post;
 }
 
 async function saveIndex(index) {
@@ -236,8 +264,8 @@ async function getPost(request, id) {
   const store = await postsStore();
   if (!ID_PATTERN.test(id)) throw new HttpError(404, 'Article not found');
   let post = await store.getJSON(postKey(id));
-  if (!post && (await store.getJSON(INDEX_KEY)) === null) {
-    await loadIndex(); // first request on a new store: seed, then look again
+  if (!post && !repoArticlesImported) {
+    await loadIndex(); // first request after a deploy: import new repo articles, then look again
     post = await store.getJSON(postKey(id));
   }
   if (!post || (post.status !== 'published' && !userFromRequest(request))) {

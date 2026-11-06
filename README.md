@@ -46,7 +46,7 @@ npm run dev              # API on :8888 + site on http://localhost:3000
 ```
 
 Locally, data is stored in `.data/` (git-ignored). On first start the store is filled with the
-starter articles in `server/seed/`. Delete `.data/` to start over.
+articles in `server/seed/`. Delete `.data/` to start over.
 
 | Command | What it does |
 |---|---|
@@ -66,7 +66,34 @@ starter articles in `server/seed/`. Delete `.data/` to start over.
    - `ADMIN_PASSWORD`: a long, unique password
    - `SESSION_SECRET`: a long random string (e.g. from `openssl rand -hex 32`)
 3. Deploy. Netlify Blobs is enabled automatically. The first visit fills the empty store with
-   the starter articles; after that, manage everything at `https://<your-site>/admin`.
+   the articles in `server/seed/`; after that, manage everything at `https://<your-site>/admin`.
+
+## Adding articles through GitHub
+
+Besides the admin panel, articles can be added in the repo:
+
+1. Add an entry to `server/seed/posts.json`:
+   ```json
+   {
+     "id": "short-unique-id",
+     "title": "Headline",
+     "excerpt": "Optional summary",
+     "content": "Article text, using the same marks as the editor (## heading, **bold**, > quote, - list)",
+     "category": "Trade",
+     "author": "Optional",
+     "image": "short-unique-id.jpg",
+     "imageCaption": "Optional",
+     "featured": false,
+     "createdAt": "2026-11-06T10:00:00Z"
+   }
+   ```
+   `id` must be unique and 3–40 letters, numbers, `-` or `_`; it becomes the article's link
+   (`/article/<id>`). `image` is optional and refers to a JPEG, PNG, WebP or GIF in
+   `server/seed/images/`. Add `"status": "draft"` to import it unpublished.
+2. Push. On the first request after the deploy, each new entry is copied into the store once.
+   The store remembers which ids it has imported, so editing an article in the admin panel
+   isn't undone, and deleting one there doesn't bring it back. Changing an entry in
+   `posts.json` after it was imported has no effect; edit it in the admin panel instead.
 
 ## API
 
