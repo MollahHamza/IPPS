@@ -181,7 +181,7 @@
   }
 }
 
-/* Phones: each table row becomes a small card, with the column name above each value */
+/* Phones */
 @media (max-width: 640px) {
   .trade-toc {
     justify-content: flex-start;
@@ -190,6 +190,7 @@
 
   .trade-toc a {
     font-size: 0.9em;
+    min-height: 44px;
   }
 
   .trade-facts {
@@ -210,35 +211,58 @@
   }
 
   .trade-table {
-    padding: 18px;
+    padding: 14px;
     margin-top: 18px;
   }
 
-  .trade-table thead {
+  /* Two-sided tables stay tables, just tighter; long words hyphenate so the narrowest phones fit */
+  .trade-table table {
+    font-size: 0.88em;
+    table-layout: fixed;
+    hyphens: auto;
+    overflow-wrap: break-word;
+  }
+
+  .trade-table th,
+  .trade-table td {
+    padding: 9px 8px;
+  }
+
+  .trade-table thead th {
+    font-size: 0.82em;
+  }
+
+  .trade-table thead th:first-child,
+  .trade-table tbody th {
+    width: 28%;
+  }
+
+  /* Wider tables: each row becomes a small card, with the column name above each value */
+  .trade-table--wide thead {
     display: none;
   }
 
-  .trade-table table,
-  .trade-table tbody,
-  .trade-table tr,
-  .trade-table th,
-  .trade-table td {
+  .trade-table--wide table,
+  .trade-table--wide tbody,
+  .trade-table--wide tr,
+  .trade-table--wide th,
+  .trade-table--wide td {
     display: block;
     width: auto;
   }
 
-  .trade-table tbody tr {
+  .trade-table--wide tbody tr {
     border: 1px solid var(--rule);
     border-radius: 10px;
     margin-bottom: 12px;
     overflow: hidden;
   }
 
-  .trade-table tbody tr:nth-child(even) {
+  .trade-table--wide tbody tr:nth-child(even) {
     background: transparent;
   }
 
-  .trade-table tbody th {
+  .trade-table--wide tbody th {
     background: var(--navy);
     color: #fff;
     width: auto;
@@ -246,15 +270,15 @@
     border-bottom: 0;
   }
 
-  .trade-table td {
+  .trade-table--wide td {
     padding: 10px 14px;
   }
 
-  .trade-table td:last-child {
+  .trade-table--wide td:last-child {
     border-bottom: 0;
   }
 
-  .trade-table td::before {
+  .trade-table--wide td::before {
     content: attr(data-label);
     display: block;
     font-size: 0.78em;
@@ -263,5 +287,17 @@
     text-transform: uppercase;
     color: var(--muted);
     margin-bottom: 2px;
+  }
+}
+
+/* Narrowest phones: a little more room for the row labels so words like "Availability" don't split */
+@media (max-width: 360px) {
+  .trade-table:not(.trade-table--wide) thead th:first-child,
+  .trade-table:not(.trade-table--wide) tbody th {
+    width: 32%;
+    font-size: 0.85em;
+    padding-left: 6px;
+    padding-right: 6px;
+    overflow-wrap: normal;
   }
 }

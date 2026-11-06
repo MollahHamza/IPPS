@@ -365,3 +365,16 @@
     transform: none;
   }
 }
+
+@media (max-width: 640px) {
+  .info-card a {
+    display: inline-block;
+    padding: 12px 0;
+    margin: -12px 0;
+  }
+
+  .office-card a {
+    padding: 12px 0;
+    margin-top: 3px;
+  }
+}

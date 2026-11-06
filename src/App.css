@@ -716,3 +716,23 @@ a.kicker:hover {
     font-size: 1.7rem;
   }
 }
+
+/* Phones: finger-sized tap areas (about 44px) for small links and buttons.
+   Padding grows the tap area; the matching negative margins keep the layout unchanged. */
+@media (max-width: 640px) {
+  a.kicker {
+    padding: 16px 0 10px;
+    margin: -16px 0 -4px;
+  }
+
+  .text-link,
+  .breadcrumbs a {
+    display: inline-block;
+    padding: 12px 0;
+    margin: -12px 0;
+  }
+
+  .btn--small {
+    min-height: 40px;
+  }
+}

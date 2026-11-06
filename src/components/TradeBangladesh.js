@@ -87,7 +87,7 @@ const TABLES = [
   {
     id: 'table-manufacturing-production',
     title: 'Manufacturing vs production',
-    columns: ['Aspect', 'Manufacturing', 'Production'],
+    columns: ['Aspect', 'Manufac\u00ADturing', 'Production'], // soft hyphen: lets the heading break on narrow phones
     rows: [
       ['Meaning', 'Turning raw materials into finished goods, usually with machines and factories', 'Any activity that creates goods or services of value'],
       ['Scope', 'Narrow: one part of production', 'Broad: includes manufacturing, farming, mining and services'],
@@ -110,7 +110,8 @@ const RESOURCES = [
 function CompareTable({ table }) {
   const [, ...valueColumns] = table.columns;
   return (
-    <div className="trade-table" id={table.id}>
+    // Tables comparing more than two things don't fit a phone screen; those become cards there.
+    <div className={`trade-table ${valueColumns.length > 2 ? 'trade-table--wide' : ''}`} id={table.id}>
       <h3>{table.title}</h3>
       <table>
         <thead>

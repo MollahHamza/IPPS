@@ -865,3 +865,27 @@
     padding: 10px 12px;
   }
 }
+
+/* Phones: finger-sized buttons in the admin bar, the article list and the editor */
+@media (max-width: 600px) {
+  .admin-bar nav a,
+  .admin-bar nav button {
+    padding: 12px 10px;
+  }
+
+  .star {
+    min-width: 44px;
+    min-height: 44px;
+    margin: -6px -6px -6px -10px;
+  }
+
+  .editor__tabs > button,
+  .editor__format button {
+    min-height: 44px;
+  }
+
+  .checkbox input {
+    width: 20px;
+    height: 20px;
+  }
+}
