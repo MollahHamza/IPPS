@@ -37,6 +37,14 @@ function Sidebar() {
           Explore the data
         </Link>
       </section>
+      <section className="side-box side-box--promo">
+        <p className="kicker">Explainer</p>
+        <h3>Trade in Bangladesh</h3>
+        <p>Goods, services, e-commerce and IP: what Bangladesh trades, and how local and foreign trade compare.</p>
+        <Link to="/trade-bangladesh" className="btn">
+          Read the guide
+        </Link>
+      </section>
       <section className="side-box">
         <h2 className="section-title">About IPPS</h2>
         <p className="side-text">

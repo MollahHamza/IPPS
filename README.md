@@ -17,7 +17,9 @@ News site about intellectual property in Bangladesh, with an admin panel for man
   (Facebook, WhatsApp, X, copy link)
 - Share previews on social media show the article's own title, summary and image
   (`netlify/edge-functions/article-meta.js`)
-- **IP in Bangladesh** page with charts, IP offices and WIPO resources, and an **About Us** page
+- **IP in Bangladesh** page with charts, IP offices and WIPO resources
+- **Trade in Bangladesh** explainer (trade, manufacturing and production; goods, services, e-commerce and IP; comparison tables)
+- **About Us** page
 - Works on phones; Bangla text uses the Noto Bengali fonts
 
 **Admin** (`/admin`, linked in the footer)

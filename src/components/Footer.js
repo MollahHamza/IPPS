@@ -43,6 +43,9 @@ const Footer = () => {
               <Link to="/ip-bangladesh">IP in Bangladesh</Link>
             </li>
             <li>
+              <Link to="/trade-bangladesh">Trade in Bangladesh</Link>
+            </li>
+            <li>
               <Link to="/about">About Us</Link>
             </li>
           </ul>

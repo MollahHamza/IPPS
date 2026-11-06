@@ -30,6 +30,7 @@ const Header = () => {
           <span>{today}</span>
           <span className="topbar__links">
             <Link to="/ip-bangladesh">IP in Bangladesh</Link>
+            <Link to="/trade-bangladesh">Trade in Bangladesh</Link>
             <Link to="/about">About Us</Link>
           </span>
         </div>
@@ -73,6 +74,9 @@ const Header = () => {
             ))}
             <li>
               <NavLink to="/ip-bangladesh">IP in Bangladesh</NavLink>
+            </li>
+            <li>
+              <NavLink to="/trade-bangladesh">Trade in Bangladesh</NavLink>
             </li>
             <li>
               <NavLink to="/about">About Us</NavLink>

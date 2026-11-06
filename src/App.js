@@ -13,6 +13,7 @@ import './App.css';
 
 // Loaded on demand: the charts page pulls in Chart.js, and readers never need the admin code.
 const IPBangladesh = lazy(() => import('./components/IPBangladesh'));
+const TradeBangladesh = lazy(() => import('./components/TradeBangladesh'));
 const AdminLayout = lazy(() => import('./components/admin/AdminLayout'));
 const Dashboard = lazy(() => import('./components/admin/Dashboard'));
 const PostEditor = lazy(() => import('./components/admin/PostEditor'));
@@ -27,6 +28,7 @@ const routes = [
       { path: '/category/:name', element: <ListingPage mode="category" /> },
       { path: '/search', element: <ListingPage mode="search" /> },
       { path: '/ip-bangladesh', element: <IPBangladesh /> },
+      { path: '/trade-bangladesh', element: <TradeBangladesh /> },
       { path: '/about', element: <AboutUs /> },
       { path: '/login', element: <Login /> },
       {
