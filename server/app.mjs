@@ -183,9 +183,26 @@ async function importRepoArticles(index, isNewStore) {
     }
     imported.add(seed.id);
   }
-  if (todo.length || isNewStore) await saveIndex(index);
+  const before = index.length;
+  index = await removeRepoArticles(dir, index);
+  if (todo.length || isNewStore || index.length !== before) await saveIndex(index);
   if (todo.length || !savedList) await store.setJSON(IMPORTED_KEY, [...imported]);
   repoArticlesImported = true;
+  return index;
+}
+
+// Ids listed in server/seed/removed.json are deleted from the store.
+async function removeRepoArticles(dir, index) {
+  const file = dir && path.join(dir, 'removed.json');
+  if (!file || !existsSync(file)) return index;
+  const store = await postsStore();
+  for (const id of JSON.parse(await readFile(file, 'utf8'))) {
+    const post = await store.getJSON(postKey(id));
+    if (!post) continue;
+    await store.delete(postKey(id));
+    index = index.filter((p) => p.id !== id);
+    await deleteImageIfUnused(post.imageUrl, index);
+  }
   return index;
 }
 
@@ -263,11 +280,8 @@ async function listCategories() {
 async function getPost(request, id) {
   const store = await postsStore();
   if (!ID_PATTERN.test(id)) throw new HttpError(404, 'Article not found');
-  let post = await store.getJSON(postKey(id));
-  if (!post && !repoArticlesImported) {
-    await loadIndex(); // first request after a deploy: import new repo articles, then look again
-    post = await store.getJSON(postKey(id));
-  }
+  if (!repoArticlesImported) await loadIndex(); // first request after a deploy: apply repo additions and removals
+  const post = await store.getJSON(postKey(id));
   if (!post || (post.status !== 'published' && !userFromRequest(request))) {
     throw new HttpError(404, 'Article not found');
   }

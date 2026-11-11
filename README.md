@@ -95,6 +95,9 @@ Besides the admin panel, articles can be added in the repo:
    isn't undone, and deleting one there doesn't bring it back. Changing an entry in
    `posts.json` after it was imported has no effect; edit it in the admin panel instead.
 
+To delete an article through the repo, add its id to the list in `server/seed/removed.json` and
+push. Taking it out of `posts.json` alone doesn't remove it from the store.
+
 ## API
 
 All under `/api`. Write routes need `Authorization: Bearer <token>` from the login route.

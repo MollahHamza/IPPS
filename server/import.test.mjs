@@ -78,3 +78,11 @@ test('opening a new article by its link works before any list request', async ()
   const handle = await deploy();
   assert.equal((await call(handle, 'GET', '/api/posts/third-article')).status, 200);
 });
+
+test('an article listed in removed.json is deleted, even when opened by its link first', async () => {
+  await writeFile(path.join(seedDir, 'removed.json'), JSON.stringify(['third-article', 'never-existed']));
+  const handle = await deploy();
+  assert.equal((await call(handle, 'GET', '/api/posts/third-article')).status, 404);
+  const list = await call(handle, 'GET', '/api/posts');
+  assert.deepEqual(list.body.posts.map((p) => p.id), ['second-article']);
+});
