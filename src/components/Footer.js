@@ -56,10 +56,10 @@ const Footer = () => {
           <ul className="footer__contact">
             <li>Dhaka, Bangladesh</li>
             <li>
-              <a href="mailto:contact@ipps.org.bd">contact@ipps.org.bd</a>
+              <a href="mailto:zinniafc@gmail.com">zinniafc@gmail.com</a>
             </li>
             <li>
-              <a href="tel:+8801234567890">+880 1234-567890</a>
+              <a href="tel:+8801705667079">01705667079</a>
             </li>
           </ul>
         </div>
